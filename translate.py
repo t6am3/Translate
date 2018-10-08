@@ -45,16 +45,21 @@ def engProcess(soup):
 
 def chnProcess(soup):
     basicShow = []
-    print(soup)
-    soup2 = re.findall(r'<ul>.*</ul>', str(soup))[0]
 
-    wordGroups = soup2.split('</p><p>')
+    soup2 = re.findall(r'<ul>(.*?)</ul>', str(soup), re.DOTALL)[0]
+    wordGroups = soup2.split('</p>\n<p')
     for eachwordGroup in wordGroups:
         wordGroup = ''
-        wordGroup += re.match(r'(?:<.*>)*(.+)</span>', eachwordGroup)
-        words = re.findall(r'<.*?>(.+)</a>')
+        wordList = []
+        wordtype = re.findall(r'(?:<.*>)*(.+)</span>', eachwordGroup)
+        if len(wordtype) > 0:
+            wordGroup += wordtype[0]
+        wordGroup += ' '
+        words = re.findall(r'>([^<]*)</a>', eachwordGroup)
         for eachWord in words:
             wordGroup += eachWord
+            if eachWord != words[-1]:
+                wordGroup += ', '
         basicShow.append(wordGroup)
 
     return basicShow

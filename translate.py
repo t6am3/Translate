@@ -22,17 +22,42 @@ def dictGetSoup(word, url= 'https://dict.youdao.com/w/eng/'):
     return soup
 
 def soupProcess(soup):
+
+    # First we get the basic meanings of our word
+    if ord(word[0]) > 256:
+        basicShow = chnProcess(soup)
+    else:
+        basicShow = engProcess(soup)
+
     showList = []
-    #First we get the basic meanings of our word
-    basicShow = re.findall(r"<li>([^(<a)]*?)</li>", str(soup))
+
+    #Basic process
     showList.append('基本释义:')
     if len(basicShow) == 0:
         showList.append('无')
     showList.extend(basicShow)
     showList.append('')
 
-
     return showList
+
+def engProcess(soup):
+    return re.findall(r"<li>([^(<a)]*?)</li>", str(soup))
+
+def chnProcess(soup):
+    basicShow = []
+    print(soup)
+    soup2 = re.findall(r'<ul>.*</ul>', str(soup))[0]
+
+    wordGroups = soup2.split('</p><p>')
+    for eachwordGroup in wordGroups:
+        wordGroup = ''
+        wordGroup += re.match(r'(?:<.*>)*(.+)</span>', eachwordGroup)
+        words = re.findall(r'<.*?>(.+)</a>')
+        for eachWord in words:
+            wordGroup += eachWord
+        basicShow.append(wordGroup)
+
+    return basicShow
 
 def dictionary(word):
     soup = dictGetSoup(word)
@@ -43,6 +68,7 @@ def dictionary(word):
 if __name__ == '__main__':
     while True:
         word = input('你又不记得哪个单词了？\n')
+
         if word == 'sb':
             break
         dictionary(word)

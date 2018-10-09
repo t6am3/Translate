@@ -3,7 +3,8 @@ This program is for my easy-English translate
 Date:2018/10/8
 Author:ivan1rufus
 '''
-
+#Already import tkinter, prepare for the gui.
+import tkinter
 import requests
 import bs4
 import re

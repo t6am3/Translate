@@ -13,7 +13,8 @@ from bs4 import BeautifulSoup as Bs
 headers = {
 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
 }
-
+#Below is for word translate(dictionary)
+#############################################################################################################################################################################################
 def dictGetSoup(word, url= 'https://dict.youdao.com/w/eng/'):
     url += word
     response = requests.get(url, headers=headers)
@@ -70,6 +71,12 @@ def dictionary(word):
     showList = soupProcess(soup)
     for eachShow in showList:
         print(eachShow)
+#############################################################################################################################################################################################
+
+#Below is for translating words
+#############################################################################################################################################################################################
+def translate():
+    pass
 
 if __name__ == '__main__':
     while True:

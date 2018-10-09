@@ -1,2 +1,3 @@
 这是一个测试文件哦。
 This is a tst file~
+This line will be deleted.

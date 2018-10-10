@@ -5,10 +5,7 @@ git is very useful(   sasasa).
 one more 
 1 changed
 git created branch quickly.
-<<<<<<< HEAD
 稍微改一行会怎么样?
-=======
 maye
 我爱上你了
 我爱上你了2~
->>>>>>> f1

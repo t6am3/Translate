@@ -15,7 +15,7 @@ headers = {
 }
 
 #Below is for word translate(dictionary)
-#####################################################################################
+
 
 def dictGetSoup(word, url= 'https://dict.youdao.com/w/eng/'):
     url += word
@@ -84,12 +84,12 @@ def dictionary(word):
     for eachShow in showList:
         print(eachShow)
 
-########################################################################################################################
+
 
 
 
 #Below is for translating words
-###########################################################################################
+
 
 def translate():
     pass

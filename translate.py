@@ -3,19 +3,20 @@ This program is for my easy-English translate
 Date:2018/10/8
 Author:ivan1rufus
 '''
-#Already import tkinter, prepare for the gui.
 import tkinter
 import requests
 import bs4
 import re
 from bs4 import BeautifulSoup as Bs
-
+#Already import tkinter, prepare for the gui.
 headers = {
 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome\
 /69.0.3497.100 Safari/537.36'
 }
+
 #Below is for word translate(dictionary)
-########################################################################################################################
+#####################################################################################
+
 def dictGetSoup(word, url= 'https://dict.youdao.com/w/eng/'):
     url += word
     response = requests.get(url, headers=headers)
@@ -44,7 +45,17 @@ def soupProcess(soup):
     return showList
 
 def engProcess(soup):
-    return re.findall(r"<li>([^(<a)]*?)</li>", str(soup))
+    basicList = re.findall(r"<li>(.*?)</li>", str(soup))
+    #print(basicList)
+    i = 0
+    while True:
+       if basicList[i].find('<a') == 0:
+           basicList.remove(basicList[i])
+       else:
+            i += 1
+       if i == len(basicList):
+            break
+    return basicList
 
 def chnProcess(soup):
     basicShow = []
@@ -72,10 +83,14 @@ def dictionary(word):
     showList = soupProcess(soup)
     for eachShow in showList:
         print(eachShow)
+
 ########################################################################################################################
 
+
+
 #Below is for translating words
-########################################################################################################################
+###########################################################################################
+
 def translate():
     pass
 

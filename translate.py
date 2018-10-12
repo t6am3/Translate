@@ -3,25 +3,22 @@ This program is for my easy-English translate
 Date:2018/10/8
 Author:ivan1rufus
 '''
+import urllib.request
+import urllib.parse
 import tkinter
 import requests
 import bs4
 import re
+import json
 from bs4 import BeautifulSoup as Bs
+
+
 #Already import tkinter, prepare for the gui.
 headers = {
 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome\
 /69.0.3497.100 Safari/537.36',
 }
 
-data = {
-'i': '怎么',
-'from': 'AUTO',
-'to': 'AUTO',
-'smartresult': 'dict',
-'client': 'fanyideskweb',
-
-}
 #Below is for word translate(dictionary)
 
 
@@ -41,16 +38,7 @@ def soupProcess(soup):
     else:
         basicShow = engProcess(soup)
 
-    showList = []
-
-    #Basic process
-    showList.append('基本释义:')
-    if len(basicShow) == 0:
-        showList.append('无')
-    showList.extend(basicShow)
-    showList.append('')
-
-    return showList
+    return basicShow
 
 def engProcess(soup):
     basicList = re.findall(r"<li>(.*?)</li>", str(soup))
@@ -89,8 +77,20 @@ def chnProcess(soup):
 def dictionary(word):
     soup = dictGetSoup(word)
     showList = soupProcess(soup)
-    for eachShow in showList:
-        print(eachShow)
+    show(showList)
+
+def show(showList):
+    #Basic process
+    toShow = []
+    
+    toShow.append('基本释义:')
+    if len(showList) == 0:
+        toShow.append('无')
+    toShow.extend(showList)
+    toShow.append('')
+    
+    for eachShow in toShow:
+            print(eachShow)
 
 
 
@@ -99,14 +99,38 @@ def dictionary(word):
 #Below is for translating words
 
 
-def translate(word, url='http://fanyi.youdao.com/'):
-    print('翻译功能正在施工中...\n')
+def translate(word, url='http://fanyi.youdao.com/translate?smartresult=dict&smartresult=rule'):
+    showList = []
+    
+    data = {
+    'i': '怎么',
+    'from': 'AUTO',
+    'to': 'AUTO',
+    'smartresult': 'dict',
+    'client': 'fanyideskweb',
+    'salt': '1539356660319',
+    'sign': '6607a4e010165e79f83811472a173e77',
+    'doctype': 'json',
+    'version': '2.1',
+    'keyfrom': 'fanyi.web',
+    'action': 'FY_BY_CLICKBUTTION',
+    'typoResult': 'false'
+    }
+    
     data['i'] = word
-    #print(data)
-    response = requests.post(url, headers=headers, data=data)
-    #print(response.text)
-    print(re.findall(r'<span data-section="0" data-sentence="0" class="">(.*)</span>', response.text)[0])
-    pass
+
+    data = urllib.parse.urlencode(data).encode('utf-8')
+
+    req = urllib.request.Request(url, data=data, headers=headers)
+    
+    response = urllib.request.urlopen(req)
+    
+    html = response.read().decode('utf-8')
+    
+    html = json.loads(html)
+
+    showList.append(html['translateResult'][0][0]['tgt'])
+    show(showList)
 
 def dictOrTranslate(word):
     if word.count(' ') >= 2:

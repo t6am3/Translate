@@ -11,9 +11,17 @@ from bs4 import BeautifulSoup as Bs
 #Already import tkinter, prepare for the gui.
 headers = {
 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome\
-/69.0.3497.100 Safari/537.36'
+/69.0.3497.100 Safari/537.36',
 }
 
+data = {
+'i': '怎么',
+'from': 'AUTO',
+'to': 'AUTO',
+'smartresult': 'dict',
+'client': 'fanyideskweb',
+
+}
 #Below is for word translate(dictionary)
 
 
@@ -91,13 +99,25 @@ def dictionary(word):
 #Below is for translating words
 
 
-def translate():
+def translate(word, url='http://fanyi.youdao.com/'):
+    print('翻译功能正在施工中...\n')
+    data['i'] = word
+    #print(data)
+    response = requests.post(url, headers=headers, data=data)
+    #print(response.text)
+    print(re.findall(r'<span data-section="0" data-sentence="0" class="">(.*)</span>', response.text)[0])
     pass
+
+def dictOrTranslate(word):
+    if word.count(' ') >= 2:
+        translate(word)
+    else:
+        dictionary(word)
 
 if __name__ == '__main__':
     while True:
-        word = input('你又不记得哪个单词了？\n')
+        word = input('想翻译啥？<如果想使用翻译功能，请在输入中加入两个或以上的空格>\n')
 
         if word == 'sb':
             break
-        dictionary(word)
+        dictOrTranslate(word)

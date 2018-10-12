@@ -43,7 +43,17 @@ def soupProcess(soup):
     return showList
 
 def engProcess(soup):
-    return re.findall(r"<li>([^(<a)]*?)</li>", str(soup))
+    basicList = re.findall(r"<li>(.*?)</li>", str(soup))
+    #print(basicList)
+    i = 0
+    while True:
+       if basicList[i].find('<a') == 0:
+           basicList.remove(basicList[i])
+       else:
+            i += 1
+       if i == len(basicList):
+            break
+    return basicList
 
 def chnProcess(soup):
     basicShow = []

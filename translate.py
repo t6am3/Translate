@@ -3,18 +3,18 @@ This program is for my easy-English translate
 Date:2018/10/8
 Author:ivan1rufus
 '''
-#Already import tkinter, prepare for the gui.
 import tkinter
 import requests
 import bs4
 import re
 from bs4 import BeautifulSoup as Bs
-
+#Already import tkinter, prepare for the gui.
 headers = {
-'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
+'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) \
+AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
 }
 #Below is for word translate(dictionary)
-#############################################################################################################################################################################################
+#####################################################################################
 def dictGetSoup(word, url= 'https://dict.youdao.com/w/eng/'):
     url += word
     response = requests.get(url, headers=headers)

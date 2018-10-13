@@ -133,10 +133,11 @@ def translate(word, url='http://fanyi.youdao.com/translate?smartresult=dict&smar
     html = json.loads(html)
 
     showList.append(html['translateResult'][0][0]['tgt'])
+    #print("使用翻译功能获得的结果为:")
     show(showList)
 
 def dictOrTranslate(word):
-    if word.count(' ') >= 2:
+    if word.count(' ')+word.count('　') >= 2:
         translate(word)
     else:
         dictionary(word)

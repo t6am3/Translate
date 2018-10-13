@@ -8,4 +8,4 @@ def compile(dir):
         compileall.compile_dir(dir)
 
 if __name__ == '__main__':
-    compile(input("请输入你要编译的文件/路径"))
+    compile(input("请输入你要编译的文件/路径:\n"))

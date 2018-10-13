@@ -67,10 +67,13 @@ def chnProcess(soup):
         wordGroup += ' '
         words = re.findall(r'>([^<]*)</a>', eachwordGroup)
         for eachWord in words:
-            wordGroup += eachWord
-            if eachWord != words[-1]:
-                wordGroup += ', '
-        basicShow.append(wordGroup)
+            if not (eachWord.find('中法') != -1 or eachWord.find('中日') != -1 \
+               or eachWord.find('中韩') != -1 or eachWord.find('中英') != -1):
+                wordGroup += eachWord
+                if eachWord != words[-1]:
+                    wordGroup += ', '
+        if len(wordGroup) != 1:
+            basicShow.append(wordGroup)
 
     return basicShow
 
@@ -101,7 +104,7 @@ def show(showList):
 
 def translate(word, url='http://fanyi.youdao.com/translate?smartresult=dict&smartresult=rule'):
     showList = []
-    
+    #其实这里用requests包也可以，要注意的是url。实际上接受请求并发送回应的url在Request报文里。
     data = {
     'i': '怎么',
     'from': 'AUTO',
